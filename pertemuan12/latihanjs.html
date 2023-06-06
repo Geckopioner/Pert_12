@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<style>
+    a {
+        text-decoration: none;
+        color: black;
+    }
+
+    button:hover{
+        background-color: rgb(170, 170, 170);
+        color:white;
+        border-color:rgb(170, 170,170);
+
+    }
+
+    th{
+        background-color: rgb(230, 230, 230);
+    }
+
+    .no{
+        background-color: rgb(230, 230, 230);
+    }
+</style>
+
+<body>
+    <a href="latihan1-new.html">Data Baru</a>
+    <div id="show"></div>
+    <script>
+        const jsHTTP = new XMLHttpRequest();
+        jsHTTP.open("GET","https://webpro.ptov.my.id/api/curduser.php?aksi=get");
+        jsHTTP.send();
+
+        jsHTTP.onload = function(){
+            const dta = JSON.parse(this.responseText);
+
+            console.log(dta);
+            let tx = "<center><h1>List Data</h1></center>"
+            tx += "<center><table border ='1' cellspacing='0' cellpadding='5'><tr><th>#</th> <th>Nama</th> <th>Email</th> <th>Username</th> <th>Action</th></tr></center>";
+            let no = 1;
+            for(let i=0; i<dta.affected;i++){
+                tx += "<tr>";
+                tx += "   <td class='no'>"+no+"</td>";
+                tx += "   <td>"+dta.isi[i][0]+"</td>";
+                tx += "   <td>"+dta.isi[i][1]+"</td>";
+                tx += "   <td>"+dta.isi[i][2]+"</td>";
+                tx += "   <td><button><a href='editdata.html?id="+dta.isi[i][3]+"'>Edit</a></button> <button><a href='hapusdata.html?id="+dta.isi[i][3]+"'>Hapus</a></button></td>";
+                tx +="</tr>";
+                no++;
+            }
+            tx += "</table>"
+            document.getElementById("show").innerHTML = tx ; 
+        }
+    </script>
+</body>
+</html>
